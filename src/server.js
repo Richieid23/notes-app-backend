@@ -2,7 +2,6 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
-const path = require('path');
 
 // notes
 const notes = require('./api/notes');
@@ -32,7 +31,7 @@ const ExportsValidator = require('./validator/exports');
 
 // uploads
 const uploads = require('./api/uploads');
-const StorageService = require('./services/storage/StorageService');
+const StorageService = require('./services/S3/StorageServoce');
 const UploadsValidator = require('./validator/uploads');
 
 const init = async () => {
@@ -40,7 +39,7 @@ const init = async () => {
   const notesService = new NoteServices(collaborationsService);
   const usersService = new UserServices();
   const authenticationsService = new AuthenticationsService();
-  const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
+  const storageService = new StorageService();
 
   const server = Hapi.server({
     port: process.env.PORT,
